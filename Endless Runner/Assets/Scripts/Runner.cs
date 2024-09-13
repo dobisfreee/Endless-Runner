@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public enum RoadLine  
 {
@@ -11,15 +12,33 @@ public enum RoadLine
 public class Runner : MonoBehaviour
 {
     [SerializeField] RoadLine roadLine = RoadLine.MIDDLE;
-   
-    void Start()
+
+    private void OnEnable()
     {
-        
+        InputManager.Instance.action += OnKeyUpdate;
     }
 
-
-    void Update()
+    private void OnKeyUpdate()
     {
-        
+        if(Input.GetKeyDown(KeyCode.LeftArrow))
+        {
+            if(roadLine != RoadLine.LEFT)
+            {
+                roadLine--;
+            }
+        }
+
+        if(Input.GetKeyDown(KeyCode.RightArrow))
+        {
+            if(roadLine != RoadLine.RIGHT)
+            {
+                roadLine++;
+            }
+        }
+    }
+
+    private void OnDisable()
+    {
+        InputManager.Instance.action -= OnKeyUpdate;
     }
 }
